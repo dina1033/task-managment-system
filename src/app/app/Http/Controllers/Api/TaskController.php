@@ -2,48 +2,89 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\Task\StoreTaskRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
+use App\Http\Resources\TaskResource;
+use App\Models\Project;
+use App\Models\Task;
+use App\Services\TaskService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class TaskController extends Controller
+class TaskController extends BaseApiController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(private readonly TaskService $taskService,)
     {
-        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function index(Request $request,Project $project): JsonResponse
     {
-        //
+        $this->authorize('view', $project);
+
+        $tasks = $this->taskService->index(
+            project: $project,
+            filters: $request->only([
+                'status',
+                'priority',
+                'search',
+                'per_page',
+            ]),
+        );
+
+        return $this->paginatedResponse(
+            TaskResource::collection($tasks),
+            'Tasks fetched successfully.',
+        );
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+    public function store(
+        StoreTaskRequest $request,
+        Project $project
+    ): JsonResponse {
+        $this->authorize('update', $project);
+
+        $task = $this->taskService->store(
+            $project,
+            $request->validated()
+        );
+
+        return $this->successResponse(
+            data: new TaskResource($task),
+            message: 'Task created successfully.',
+            status: Response::HTTP_CREATED,
+        );
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(
+        UpdateTaskRequest $request,
+        Project $project,
+        Task $task
+    ): JsonResponse {
+        $this->authorize('update', $task);
+
+        $task = $this->taskService->update(
+            task: $task,
+            data: $request->validated(),
+        );
+
+        return $this->successResponse(
+            data: new TaskResource($task),
+            message: 'Task updated successfully.',
+        );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy(
+        Project $project,
+        Task $task
+    ): JsonResponse {
+        $this->authorize('delete', $task);
+
+        $this->taskService->delete($task);
+
+        return $this->successResponse(
+            message: 'Task deleted successfully.',
+            status: Response::HTTP_OK,
+        );
     }
 }
