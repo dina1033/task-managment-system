@@ -2,48 +2,82 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\Project\StoreProjectRequest;
+use App\Http\Requests\Project\UpdateProjectRequest;
+use App\Http\Resources\ProjectResource;
+use App\Models\Project;
+use App\Services\ProjectService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class ProjectController extends Controller
+class ProjectController extends BaseApiController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function __construct(
+        private readonly ProjectService $projectService,
+    ) {
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        //
+        $projects = $this->projectService->index(
+            userId: $request->user()->id,
+            filters: $request->only('status', 'per_page'),
+        );
+
+        return $this->paginatedResponse(
+            ProjectResource::collection($projects),
+            'Projects fetched successfully.'
+        );
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function store(StoreProjectRequest $request): JsonResponse
     {
-        //
+        $project = $this->projectService->store(
+            $request->user()->id,
+            $request->validated()
+        );
+
+        return $this->successResponse(
+            data: new ProjectResource($project),
+            message: 'Project created successfully.',
+            status: Response::HTTP_CREATED,
+        );
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function show(Project $project): JsonResponse
     {
-        //
+        $this->authorize('view', $project);
+
+        return $this->successResponse(
+            data: new ProjectResource($project),
+        );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function update(UpdateProjectRequest $request, Project $project): JsonResponse
     {
-        //
+        $this->authorize('update', $project);
+
+        $project = $this->projectService->update(
+            $project,
+            $request->validated()
+        );
+
+        return $this->successResponse(
+            data: new ProjectResource($project),
+            message: 'Project updated successfully.',
+        );
+    }
+
+    public function destroy(Project $project): JsonResponse
+    {    
+        $this->authorize('delete', $project);
+
+        $this->projectService->delete($project);
+    
+        return $this->successResponse(
+            message: 'Project deleted successfully.',
+            status: Response::HTTP_OK,
+        );
     }
 }

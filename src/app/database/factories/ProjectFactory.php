@@ -2,23 +2,26 @@
 
 namespace Database\Factories;
 
-use App\Models\Project;
+use App\Enums\ProjectStatus;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<Project>
- */
 class ProjectFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+
+            'name' => fake()->sentence(3),
+
+            'description' => fake()->paragraph(),
+
+            'status' => fake()->randomElement([
+                ProjectStatus::ACTIVE->value,
+                ProjectStatus::COMPLETED->value,
+                ProjectStatus::ARCHIVED->value,
+            ]),
         ];
     }
 }
