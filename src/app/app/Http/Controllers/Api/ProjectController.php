@@ -11,6 +11,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Project Management APIs.
+ */
 class ProjectController extends BaseApiController
 {
     public function __construct(
@@ -18,6 +21,9 @@ class ProjectController extends BaseApiController
     ) {
     }
 
+    /**
+     * List all authenticated user's projects.
+     */
     public function index(Request $request): JsonResponse
     {
         $projects = $this->projectService->index(

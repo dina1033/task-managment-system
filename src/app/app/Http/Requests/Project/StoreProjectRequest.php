@@ -21,4 +21,26 @@ class StoreProjectRequest extends FormRequest
             'status' => ['sometimes', new Enum(ProjectStatus::class)],
         ];
     }
+    /**
+     * Get custom body parameters for Scribe.
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => 'Project name.',
+                'example' => 'Task Management API',
+            ],
+
+            'description' => [
+                'description' => 'Project description.',
+                'example' => 'Laravel REST API with authentication and task management.',
+            ],
+
+            'status' => [
+                'description' => 'Project status.',
+                'example' => 'active',
+            ],
+        ];
+    }
 }

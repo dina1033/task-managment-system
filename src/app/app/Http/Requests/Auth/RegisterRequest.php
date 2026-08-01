@@ -29,4 +29,29 @@ class RegisterRequest extends FormRequest
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }
+
+    /**
+     * Get custom body parameters for Scribe.
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => 'User full name.',
+                'example' => 'Dina Abdullah',
+            ],
+            'email' => [
+                'description' => 'User email address.',
+                'example' => 'dina@example.com',
+            ],
+            'password' => [
+                'description' => 'User password.',
+                'example' => 'password',
+            ],
+            'password_confirmation' => [
+                'description' => 'Password confirmation.',
+                'example' => 'password',
+            ],
+        ];
+    }
 }

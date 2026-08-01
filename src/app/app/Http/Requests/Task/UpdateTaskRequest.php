@@ -33,4 +33,37 @@ class UpdateTaskRequest extends FormRequest
             'due_date' => ['sometimes','nullable', 'date'],
         ];
     }
+
+    /**
+     * Get custom body parameters for Scribe.
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'title' => [
+                'description' => 'Updated task title.',
+                'example' => 'Finish API Documentation',
+            ],
+
+            'description' => [
+                'description' => 'Updated task description.',
+                'example' => 'Complete API documentation using Scribe.',
+            ],
+
+            'priority' => [
+                'description' => 'Task priority.',
+                'example' => 'medium',
+            ],
+
+            'status' => [
+                'description' => 'Task status.',
+                'example' => 'in_progress',
+            ],
+
+            'due_date' => [
+                'description' => 'Updated due date.',
+                'example' => '2026-08-20',
+            ],
+        ];
+    }
 }

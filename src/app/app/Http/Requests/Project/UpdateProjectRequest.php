@@ -21,4 +21,27 @@ class UpdateProjectRequest extends FormRequest
             'status' => ['sometimes', new Enum(ProjectStatus::class)],
         ];
     }
+
+    /**
+     * Get custom body parameters for Scribe.
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => 'Updated project name.',
+                'example' => 'Updated Task Management API',
+            ],
+
+            'description' => [
+                'description' => 'Updated project description.',
+                'example' => 'Updated project description.',
+            ],
+
+            'status' => [
+                'description' => 'Project status.',
+                'example' => 'completed',
+            ],
+        ];
+    }
 }

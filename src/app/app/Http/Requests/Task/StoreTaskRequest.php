@@ -33,4 +33,37 @@ class StoreTaskRequest extends FormRequest
             'due_date' => ['nullable', 'date', 'after_or_equal:today'],
         ];
     }
+
+    /**
+     * Get custom body parameters for Scribe.
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'title' => [
+                'description' => 'Task title.',
+                'example' => 'Implement authentication',
+            ],
+
+            'description' => [
+                'description' => 'Task description.',
+                'example' => 'Implement Laravel Sanctum authentication.',
+            ],
+
+            'priority' => [
+                'description' => 'Task priority.',
+                'example' => 'high',
+            ],
+
+            'status' => [
+                'description' => 'Task status.',
+                'example' => 'todo',
+            ],
+
+            'due_date' => [
+                'description' => 'Task due date.',
+                'example' => '2026-08-15',
+            ],
+        ];
+    }
 }
