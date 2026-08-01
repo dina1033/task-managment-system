@@ -52,11 +52,12 @@ The system allows authenticated users to manage projects and tasks, receive over
 
 1. Run the complete test suite using: `docker compose exec php php artisan test`.
 
-# API Documentation
+### API Documentation
 
-## The API documentation using Scribe will be available at: http://localhost:8060/docs
+1. The API documentation using Scribe will be available at: http://localhost:8060/docs.
 
-# Postman Collection
+### Postman Collection
 
-## A ready-to-use Postman collection is included with the project: Task_Management_API.postman_collection.json Import it into Postman to test all available endpoints.
+1. A ready-to-use Postman collection is included with the project: Task_Management_API.postman_collection.json Import it into Postman to test all available endpoints.
+
 
