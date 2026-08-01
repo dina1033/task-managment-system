@@ -1,0 +1,511 @@
+{
+	"info": {
+	  "_postman_id": "cedb1152-3d3c-463c-bb1a-df3960f1ff18",
+	  "name": "Task Management API",
+	  "description": "Laravel Task Management API Collection",
+	  "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+	  "_exporter_id": "11942728"
+	},
+	"item": [
+	  {
+		"name": "Auth",
+		"item": [
+		  {
+			"name": "Register",
+			"request": {
+			  "method": "POST",
+			  "header": [
+				{
+				  "key": "Accept",
+				  "value": "application/json"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n    \"name\": \"Demo User\",\n    \"email\": \"demotest@example.com\",\n    \"password\": \"password\",\n    \"password_confirmation\": \"password\"\n}",
+				"options": {
+				  "raw": {
+					"language": "json"
+				  }
+				}
+			  },
+			  "url": {
+				"raw": "{{base_url}}/register",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "register"
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "Login",
+			"event": [
+			  {
+				"listen": "test",
+				"script": {
+				  "exec": [
+					"const json = pm.response.json();",
+					"pm.environment.set('token', json.data.token);"
+				  ],
+				  "type": "text/javascript",
+				  "packages": {},
+				  "requests": {}
+				}
+			  }
+			],
+			"request": {
+			  "method": "POST",
+			  "header": [
+				{
+				  "key": "Accept",
+				  "value": "application/json"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n    \"email\": \"demotest@example.com\",\n    \"password\": \"password\"\n}",
+				"options": {
+				  "raw": {
+					"language": "json"
+				  }
+				}
+			  },
+			  "url": {
+				"raw": "{{base_url}}/login",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "login"
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "Logout",
+			"request": {
+			  "method": "POST",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				},
+				{
+				  "key": "Accept",
+				  "value": "application/json"
+				}
+			  ],
+			  "url": {
+				"raw": "{{base_url}}/logout",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "logout"
+				]
+			  }
+			},
+			"response": []
+		  }
+		]
+	  },
+	  {
+		"name": "Projects",
+		"item": [
+		  {
+			"name": "List Projects",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				},
+				{
+				  "key": "Accept",
+				  "value": "application/json"
+				}
+			  ],
+			  "url": {
+				"raw": "{{base_url}}/projects",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "projects"
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "Create Project",
+			"request": {
+			  "auth": {
+				"type": "bearer",
+				"bearer": [
+				  {
+					"key": "token",
+					"value": "{{token}}",
+					"type": "string"
+				  }
+				]
+			  },
+			  "method": "POST",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				},
+				{
+				  "key": "Accept",
+				  "value": "application/json"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n    \"name\": \"Laravel Project\",\n    \"description\": \"Task management system\",\n    \"status\": \"active\"\n}",
+				"options": {
+				  "raw": {
+					"language": "json"
+				  }
+				}
+			  },
+			  "url": {
+				"raw": "{{base_url}}/projects",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "projects"
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "View Project",
+			"request": {
+			  "auth": {
+				"type": "bearer",
+				"bearer": [
+				  {
+					"key": "token",
+					"value": "{{token}}",
+					"type": "string"
+				  }
+				]
+			  },
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				}
+			  ],
+			  "url": {
+				"raw": "{{base_url}}/projects/{{project_id}}",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "projects",
+				  "{{project_id}}"
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "Update Project",
+			"request": {
+			  "method": "PUT",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n    \"name\": \"Updated Project\",\n    \"description\": \"Updated description\"\n}",
+				"options": {
+				  "raw": {
+					"language": "json"
+				  }
+				}
+			  },
+			  "url": {
+				"raw": "{{base_url}}/projects/{{project_id}}",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "projects",
+				  "{{project_id}}"
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "Delete Project",
+			"request": {
+			  "method": "DELETE",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				}
+			  ],
+			  "url": {
+				"raw": "{{base_url}}/projects/{{project_id}}",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "projects",
+				  "{{project_id}}"
+				]
+			  }
+			},
+			"response": []
+		  }
+		]
+	  },
+	  {
+		"name": "Tasks",
+		"item": [
+		  {
+			"name": "List Tasks",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				}
+			  ],
+			  "url": {
+				"raw": "{{base_url}}/projects/{{project_id}}/tasks",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "projects",
+				  "{{project_id}}",
+				  "tasks"
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "Filter Tasks",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				}
+			  ],
+			  "url": {
+				"raw": "{{base_url}}/projects/{{project_id}}/tasks?status=todo&priority=high&search=Laravel",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "projects",
+				  "{{project_id}}",
+				  "tasks"
+				],
+				"query": [
+				  {
+					"key": "status",
+					"value": "todo"
+				  },
+				  {
+					"key": "priority",
+					"value": "high"
+				  },
+				  {
+					"key": "search",
+					"value": "Laravel"
+				  }
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "Create Task",
+			"request": {
+			  "method": "POST",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n    \"title\": \"Implement API\",\n    \"description\": \"Finish task module\",\n    \"priority\": \"high\",\n    \"status\": \"todo\",\n    \"due_date\": \"2026-08-01\"\n}",
+				"options": {
+				  "raw": {
+					"language": "json"
+				  }
+				}
+			  },
+			  "url": {
+				"raw": "{{base_url}}/projects/{{project_id}}/tasks",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "projects",
+				  "{{project_id}}",
+				  "tasks"
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "Update Task",
+			"request": {
+			  "method": "PUT",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n    \"status\": \"done\"\n}"
+			  },
+			  "url": {
+				"raw": "{{base_url}}/projects/{{project_id}}/tasks/{{task_id}}",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "projects",
+				  "{{project_id}}",
+				  "tasks",
+				  "{{task_id}}"
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "Delete Task",
+			"request": {
+			  "method": "DELETE",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				}
+			  ],
+			  "url": {
+				"raw": "{{base_url}}/projects/{{project_id}}/tasks/{{task_id}}",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "projects",
+				  "{{project_id}}",
+				  "tasks",
+				  "{{task_id}}"
+				]
+			  }
+			},
+			"response": []
+		  }
+		]
+	  },
+	  {
+		"name": "Dashboard",
+		"item": [
+		  {
+			"name": "Dashboard Statistics",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				},
+				{
+				  "key": "Accept",
+				  "value": "application/json"
+				}
+			  ],
+			  "url": {
+				"raw": "{{base_url}}/dashboard",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "dashboard"
+				]
+			  }
+			},
+			"response": []
+		  },
+		  {
+			"name": "notifications",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}"
+				},
+				{
+				  "key": "Accept",
+				  "value": "application/json"
+				}
+			  ],
+			  "url": {
+				"raw": "{{base_url}}/notifications",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "notifications"
+				]
+			  }
+			},
+			"response": []
+		  }
+		]
+	  }
+	],
+	"variable": [
+	  {
+		"key": "base_url",
+		"value": "http://localhost:8060/api"
+	  },
+	  {
+		"key": "token",
+		"value": ""
+	  },
+	  {
+		"key": "project_id",
+		"value": ""
+	  },
+	  {
+		"key": "task_id",
+		"value": ""
+	  }
+	]
+  }
