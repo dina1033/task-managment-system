@@ -58,6 +58,6 @@ The system allows authenticated users to manage projects and tasks, receive over
 
 ### Postman Collection
 
-1. A ready-to-use Postman collection is included with the project: Task_Management_API.postman_collection.json Import it into Postman to test all available endpoints.
+1. A ready-to-use Postman collection is included with the project: Task_Management_API.postman_collection.json Import it into Postman to test all available endpoints using base url : http://localhost:8060/api.
 
 
